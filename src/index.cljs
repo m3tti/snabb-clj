@@ -1,24 +1,22 @@
 (ns App
   (:require
-   ["snabbdom" :as s :refer [h]]))
+   ["snabbdom" :as s :refer [h]]
+   [core :as c]))
 
-(defonce current-vnode (atom nil))
-(defonce state (atom #js {}))
-(defonce patch (s/init [s/styleModule s/propsModule
-                        s/eventListenersModule s/classModule]))
-
-(defn render [el new-vnode]
-  (reset! current-vnode new-vnode)
-  (patch el new-vnode))
-
-(defn dispatch []
-  )
+(defn ^:async something-async [s]
+  (do
+    (js-await (new js/Promise #(js/setTimeout %  1000)))
+    (console.log "Done waiting")
+    (js/Promise.resolve {:text "resolved"})))
 
 (defn App []
-  (h :div.reveal
-     (h :div.slides
-        [(h :section "Hello")
-         (h :section "World")])))
+  (h :div
+     (h :div
+        [(h :code (js/JSON.stringify @c/state))
+         (h :a {:on {:click #(c/dispatch (fn [s] (merge s {:text "sync"})))}}
+            "Sync Effect")
+         (h :a {:on {:click #(c/effect something-async)}}
+            "ASync Effect")])))
 
-(render (js/document.getElementById "app")
-        (App))
+(c/render (js/document.getElementById "app")
+        App)
