@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "dev": "conc \"squint watch\" \"bun index.html\""
+    },
+    "dependencies": {
+        "concurrently": "^9.1.2",
+        "reveal.js": "^5.2.1",
+        "snabbdom": "^3.6.2",
+        "squint-cljs": "^0.8.146"
+    }
+}
