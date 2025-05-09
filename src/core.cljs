@@ -8,6 +8,11 @@
 (defonce patch (s/init [s/styleModule s/propsModule
                         s/eventListenersModule s/classModule]))
 
+(defn getState
+  "only used for js compatibility don't use in clojure"
+  []
+  @state)
+
 (defn render
   ([]
    (let [old-vnode @current-vnode]
@@ -18,7 +23,7 @@
    (reset! current-vnode (render-fn))
    (patch el @current-vnode)))
 
-(defn effect! [fun]
+(defn effect [fun]
   (-> (fun @state)
       (.then #(reset! state #js %))
       (.finally

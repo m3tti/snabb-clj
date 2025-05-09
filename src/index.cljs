@@ -15,7 +15,7 @@
         [(h :code (js/JSON.stringify @c/state))
          (h :a {:on {:click #(c/dispatch (fn [s] (merge s {:text "sync"})))}}
             "Sync Effect")
-         (h :a {:on {:click #(c/effect! something-async)}}
+         (h :a {:on {:click #(c/effect something-async)}}
             "ASync Effect")])))
 
 (c/render (js/document.getElementById "app")
