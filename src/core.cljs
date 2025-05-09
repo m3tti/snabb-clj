@@ -18,7 +18,7 @@
    (reset! current-vnode (render-fn))
    (patch el @current-vnode)))
 
-(defn effect [fun]
+(defn effect! [fun]
   (-> (fun @state)
       (.then #(reset! state #js %))
       (.finally
